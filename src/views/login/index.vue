@@ -3,7 +3,9 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">
+          <img src="@/assets/common/login-logo.png" alt="">
+        </h3>
       </div>
 
       <el-form-item prop="username">
@@ -41,11 +43,11 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button class="loginBtn" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">立即登录</el-button>
 
       <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
+        <span style="margin-right:20px;">账号: 13800000002</span>
+        <span> 密码: 123456</span>
       </div>
 
     </el-form>
@@ -130,8 +132,8 @@ export default {
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg:#283443;
-$light_gray:#fff;
-$cursor: #fff;
+$light_gray:#000;
+$cursor: #000;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
@@ -141,6 +143,9 @@ $cursor: #fff;
 
 /* reset element-ui css */
 .login-container {
+  background-image: url('~@/assets/common/456.jpg') ; // 设置背景图片。为啥要加波浪线，是因为css的一个特性，不然他不知道@是src的意思
+  background-position: center; // 将图片位置设置为充满整个屏幕
+  background-size: cover;
   .el-input {
     display: inline-block;
     height: 47px;
@@ -157,18 +162,31 @@ $cursor: #fff;
       caret-color: $cursor;
 
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
+       transition-delay: 99999s;
+        transition: color 99999s ease-out, background-color 99999s ease-out;
       }
     }
+
   }
 
   .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+   border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #fff; // 输入登录表单的背景色
+    // border-radius: 5px;
     color: #454545;
   }
+   .el-form-item__error {
+    color: #eee;
+    font-weight: 700;
+
+  }
+     .loginBtn{
+       background: #034d82;
+       border: none;
+       height: 60px;
+       line-height: 30px;
+       font-size: 24px;
+    }
 }
 </style>
 
@@ -193,9 +211,10 @@ $light_gray:#eee;
   }
 
   .tips {
-    font-size: 14px;
+    font-size: 16px;
     color: #fff;
     margin-bottom: 10px;
+    font-weight: 700;
 
     span {
       &:first-of-type {
