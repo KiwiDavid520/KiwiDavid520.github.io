@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { login } from '@/api/user'
 
 export default {
   name: 'Login',
@@ -99,21 +100,41 @@ export default {
         this.$refs.password.focus()
       })
     },
-    handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+    async handleLogin() {
+      // this.$refs.loginForm.validate(valid => {
+      //   if (valid) {
+      //     this.loading = true
+      //     this.$store.dispatch('user/login', this.loginForm).then(() => {
+      //       this.$router.push({ path: this.redirect || '/' })
+      //       this.loading = false
+      //     }).catch(() => {
+      //       this.loading = false
+      //     })
+      //   } else {
+      //     console.log('error submit!!')
+      //     return false
+      //   }
+      // })
+      // this.$refs.loginForm.validate((valid) => {
+      //   if (valid) {
+      //     alert('验证通过')
+      //   } else {
+      //     console.log('验证失败！')
+      //     return
+      //   }
+      // })
+      try {
+        // 点击登录的时候验证表单数据是否合法，虽然不合法的时候会有提示，但是就是有调皮的用户在不合法的时候还选择继续登录
+        const result = await this.$refs.loginForm.validate()
+        // 如果校验能够成功，就会跑到下面这条语句，如果不成功，就会跑到catch中
+        console.log(result, '校验成功')
+        const { data } = await login(this.loginForm)
+        console.log(data)
+        console.log('登录请求发送成功')
+      } catch (error) {
+        // 检查到有错，捕获然后抛出错误
+        console.log(error, '校验失败')
+      }
     }
   }
 }
