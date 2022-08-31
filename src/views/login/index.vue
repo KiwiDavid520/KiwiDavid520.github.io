@@ -56,6 +56,7 @@
 
 <script>
 import { login } from '@/api/user'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Login',
@@ -90,6 +91,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('user', { userLogin: 'login' }),
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -101,39 +103,17 @@ export default {
       })
     },
     async handleLogin() {
-      // this.$refs.loginForm.validate(valid => {
-      //   if (valid) {
-      //     this.loading = true
-      //     this.$store.dispatch('user/login', this.loginForm).then(() => {
-      //       this.$router.push({ path: this.redirect || '/' })
-      //       this.loading = false
-      //     }).catch(() => {
-      //       this.loading = false
-      //     })
-      //   } else {
-      //     console.log('error submit!!')
-      //     return false
-      //   }
-      // })
-      // this.$refs.loginForm.validate((valid) => {
-      //   if (valid) {
-      //     alert('验证通过')
-      //   } else {
-      //     console.log('验证失败！')
-      //     return
-      //   }
-      // })
       try {
         // 点击登录的时候验证表单数据是否合法，虽然不合法的时候会有提示，但是就是有调皮的用户在不合法的时候还选择继续登录
         const result = await this.$refs.loginForm.validate()
         // 如果校验能够成功，就会跑到下面这条语句，如果不成功，就会跑到catch中
-        console.log(result, '校验成功')
-        const { data } = await login(this.loginForm)
-        console.log(data)
-        console.log('登录请求发送成功')
+        console.log(result, '账号密码校验成功')
+        // 请求接口
+        await this.userLogin(this.loginForm)
+        // console.log('登录请求发送成功,响应成功', res)
       } catch (error) {
         // 检查到有错，捕获然后抛出错误
-        console.log(error, '校验失败')
+        console.log(error, '失败')
       }
     }
   }
