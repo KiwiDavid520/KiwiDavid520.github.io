@@ -8,17 +8,21 @@ export function login(data) {
   })
 }
 
-export function getInfo(token) {
+// 获取用户基本资料的接口封装
+export function getInfo() {
   return request({
-    url: '/vue-admin-template/user/info',
-    method: 'get',
-    params: { token }
+    url: '/sys/profile',
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
   })
 }
 
-export function logout() {
+// 根据id获取用户详细信息的接口封装
+export function getDetailInfo(id) {
   return request({
-    url: '/vue-admin-template/user/logout',
-    method: 'post'
+    url: `/sys/user/${id}`,
+    method: 'get'
   })
 }

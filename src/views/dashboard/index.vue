@@ -6,14 +6,20 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
 export default {
   name: 'Dashboard',
+
   computed: {
     ...mapGetters([
       'name'
     ])
   }
+  // async created() {
+  //   await this.getUserInfo()
+  // },
+  // methods: {
+  //   ...mapActions('user', ['getUserInfo'])
+  // }
 }
 </script>
 
