@@ -1,6 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+import departmentsRouter from '@/router/module/departments.js'
+import approvalsRouter from '@/router/module/approvals'
+import attendancesRouter from '@/router/module/attendances'
+import employeesRouter from '@/router/module/employees'
+import permissionRouter from '@/router/module/permission'
+import salarysRouter from '@/router/module/salarys'
+import settingRouter from '@/router/module/setting'
+import socialRouter from '@/router/module/social'
 Vue.use(Router)
 
 /* Layout */
@@ -27,10 +34,18 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard' }
     }]
   },
 
+  departmentsRouter,
+  approvalsRouter,
+  employeesRouter,
+  attendancesRouter,
+  permissionRouter,
+  salarysRouter,
+  settingRouter,
+  socialRouter,
   // 404页面必须放置在最后面
   { path: '*', redirect: '/404', hidden: true }
 ]
