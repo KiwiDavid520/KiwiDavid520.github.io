@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="新增部门" :visible="isShowDialog" @close="closeDialog">
+  <el-dialog :title="formData.id?'编辑部门':'新增部门'" :visible="isShowDialog" @close="closeDialog">
     <!-- 表单组件  el-form   label-width设置label的宽度   -->
     <!-- 匿名插槽 -->
     <el-form ref="ruleForm" :model="formData" :rules="rules" label-width="120px">
@@ -33,7 +33,7 @@
 
 <script>
 import { getSimpleList } from '@/api/employee'
-import { addNewDepts } from '@/api/departments'
+import { addNewDepts, getDeptsDetailById, editDeptsById, getDepartmentList } from '@/api/departments'
 export default {
   props: {
     isShowDialog: {
@@ -46,6 +46,51 @@ export default {
     }
   },
   data() {
+    const checkCode = async(rule, value, callback) => {
+      // 编写效验逻辑
+      // 首先拿到部门列表
+      const { depts } = await getDepartmentList()
+      let isRepeat
+      if (this.formData.id) {
+        isRepeat = depts.some(item => {
+          return item.code === value && item.id !== this.formData.id
+        })
+      } else {
+        isRepeat = depts.some(item => {
+          return item.code === value
+        })
+      }
+
+      if (isRepeat) {
+        callback(new Error('部门编码重复,全公司部门编码都是唯一的'))
+        this.$message.error('部门编码重复,全公司部门编码都是唯一的')
+      } else {
+        // 成功
+        callback()
+      }
+    }
+
+    const checkName = async(rule, value, callback) => {
+      const { depts } = await getDepartmentList()
+      let isRepeat
+      if (this.formData.id) {
+        isRepeat = depts.some(item => {
+          return item.name === value && item.id !== this.formData.id
+        })
+      } else {
+        isRepeat = depts.some(item => {
+          return item.name === value
+        })
+      }
+
+      if (isRepeat) {
+        callback(new Error('部门名称重复,全公司部门名称都是唯一的'))
+        this.$message.error('部门名称重复,全公司部门名称都是唯一的')
+      } else {
+        // 成功
+        callback()
+      }
+    }
     return {
       formData: {
         code: '',
@@ -61,11 +106,19 @@ export default {
           },
           {
             min: 3, max: 10, message: '部门名称长度在3-10', trigger: 'blur'
+          },
+          {
+            validator: checkName, trigger: 'blur'
           }
         ],
-        code: {
-          required: true, message: '请输入部门编码', trigger: 'blur'
-        },
+        code: [
+          {
+            required: true, message: '请输入部门编码', trigger: 'blur'
+          },
+          {
+            validator: checkCode, trigger: 'blur'
+          }
+        ],
         manager: {
           required: true, message: '请选择部门负责人', trigger: 'blur'
         },
@@ -83,15 +136,24 @@ export default {
   },
   methods: {
     async sureBtn() {
-      this.$refs.ruleForm.validate()
-      this.formData = {
-        ...this.formData,
-        pid: this.nodeData.id
+      await this.$refs.ruleForm.validate()
+      if (this.formData.id) {
+        // 是编辑
+        await editDeptsById(this.formData)
+        // console.log(res, 111111111111111)
+        this.$message.success('更新部门成功')
+        this.$emit('isShowChange', false)
+      } else {
+        // 是新增
+        this.formData = {
+          ...this.formData,
+          pid: this.nodeData.id
+        }
+        const res = await addNewDepts(this.formData)
+        console.log(res)
+        this.$message.success('添加部门成功')
+        this.$emit('isShowChange', false)
       }
-      const res = await addNewDepts(this.formData)
-      console.log(res)
-      this.$message.success('添加部门成功')
-      this.$emit('isShowChange', false)
     },
     closeDialog() {
       this.formData = {
@@ -102,6 +164,13 @@ export default {
       }
       this.$refs.ruleForm.resetFields()
       this.$emit('isShowChange', false)
+    },
+    async getDeptsDetail(nodeData) {
+      console.log(nodeData)
+      // this.formData = nodeData
+      const res = await getDeptsDetailById(nodeData.id)
+      // console.log(res, 1111111)
+      this.formData = res
     }
   }
 }

@@ -12,13 +12,13 @@
           <!-- 下拉菜单 element -->
           <el-dropdown>
             <span>
-              操作<i class="el-icon-arrow-down" />
+              操作<i :class="{'el-icon-arrow-down':!isCompany}" />
             </span>
             <!-- 下拉菜单 -->
-            <el-dropdown-menu slot="dropdown">
+            <el-dropdown-menu v-if="!isCompany" slot="dropdown">
               <el-dropdown-item @click.native="addDepts">添加子部门</el-dropdown-item>
-              <el-dropdown-item v-if="!isCompany">编辑部门</el-dropdown-item>
-              <el-dropdown-item v-if="!isCompany&&nodeData.pid!==''" @click.native="delateDepts(nodeData)">删除部门</el-dropdown-item>
+              <el-dropdown-item v-if="!isCompany" @click.native="editDepts">编辑部门</el-dropdown-item>
+              <el-dropdown-item @click.native="delateDepts(nodeData)">删除部门</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
@@ -29,6 +29,7 @@
 
 <script>
 export default {
+
   props: {
     nodeData: {
       type: Object,
@@ -46,6 +47,9 @@ export default {
     },
     delateDepts(data) {
       this.$emit('delateDepts', this.nodeData)
+    },
+    editDepts() {
+      this.$emit('editDepts', this.nodeData)
     }
   }
 }

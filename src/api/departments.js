@@ -25,3 +25,20 @@ export function delateDeptsById(data) {
     data
   })
 }
+
+// 根据id查询部门详情
+export function getDeptsDetailById(id) {
+  return request({
+    url: `/company/department/${id}`,
+    method: 'get'
+  })
+}
+
+// 根据id修改部门
+export function editDeptsById(data) {
+  return request({
+    url: `/company/department/${data.id}`,
+    method: 'put',
+    data
+  })
+}

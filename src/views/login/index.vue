@@ -56,7 +56,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { getInfo } from '@/api/user'
+// import { getInfo } from '@/api/user'
 export default {
   name: 'Login',
   data() {
@@ -110,7 +110,7 @@ export default {
         console.log(result, 'UI自带的校验得出账号密码校验成功')
         // 请求接口
         await this.userLogin(this.loginForm)
-        this.$message.success('登陆成功')
+        this.$message.success('正在跳转...')
         console.log(this.$router.push('/dashboard'))
       } catch (error) {
         // 检查到有错，捕获然后抛出错误
@@ -137,7 +137,7 @@ $cursor: #000;
 
 /* reset element-ui css */
 .login-container {
-  background-image: url('~@/assets/common/456.jpg') ; // 设置背景图片。为啥要加波浪线，是因为css的一个特性，不然他不知道@是src的意思
+  background-image: url('~@/assets/common/login.jpg') ; // 设置背景图片。为啥要加波浪线，是因为css的一个特性，不然他不知道@是src的意思
   background-position: center; // 将图片位置设置为充满整个屏幕
   background-size: cover;
   .el-input {

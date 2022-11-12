@@ -8,11 +8,11 @@
       <el-tree :data="depts" :default-expand-all="true" :expand-on-click-node="false" :props="{label:'name'}">
 
         <template #default="scoped">
-          <TreeTools :node-data="scoped.data" :is-company="false" @addDepts="addDepts" @delateDepts="delateDepts" />
+          <TreeTools :node-data="scoped.data" :is-company="false" @addDepts="addDepts" @delateDepts="delateDepts" @editDepts="editDepts" />
         </template>
       </el-tree>
     </el-card>
-    <AddDepts :is-show-dialog="isShow" :node-data="nodeData" @isShowChange="turnFalse" />
+    <AddDepts ref="deptsadd" :is-show-dialog="isShow" :node-data="nodeData" @isShowChange="turnFalse" />
   </div>
 </template>
 
@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       companyInfo: {
-        name: '广东菠萝科技有限公司',
+        name: '人资管理系统',
         manager: '负责人'
       },
       depts: [],
@@ -50,6 +50,10 @@ export default {
       this.isShow = !this.isShow
       this.nodeData = nodeData
     },
+    editDepts(nodeData) {
+      this.isShow = !this.isShow
+      this.$refs.deptsadd.getDeptsDetail(nodeData)
+    },
     async delateDepts(data) {
       await delateDeptsById(data)
       try {
@@ -60,6 +64,7 @@ export default {
         console.log(error)
       }
     },
+
     turnFalse(data) {
       this.isShow = data
       this.getList()

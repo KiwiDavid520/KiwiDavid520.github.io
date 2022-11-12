@@ -14,6 +14,8 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+// import { formatDate } from '@/filters'
+
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
@@ -49,6 +51,17 @@ Vue.directive('fiximg', {
     }
   }
 })
+import * as myFilters from '@/filters'
+// console.log(myFilters)
+// 全局过滤器
+Vue.filter('dateFormat', myFilters.formatDate)
+
+// 全局组件注册
+// import PageTools from '@/components/pageTools'
+// Vue.component('PageTools', PageTools)
+import MyPlugin from '@/utils/test'
+Vue.use(MyPlugin)
+
 new Vue({
   el: '#app',
   router,

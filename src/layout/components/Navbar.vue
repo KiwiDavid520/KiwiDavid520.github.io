@@ -4,7 +4,7 @@
 
     <!-- <breadcrumb class="breadcrumb-container" /> -->
     <div class="app-breadcrumb">
-      中国菠萝科技股份有限公司（美国有苹果 中国有菠萝！）
+      人资管理系统
       <span class="breadBtn">体验版</span>
     </div>
 
