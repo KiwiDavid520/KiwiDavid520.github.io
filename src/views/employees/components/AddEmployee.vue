@@ -19,7 +19,7 @@
         <el-input v-model="formData.workNumber" style="width:90%" placeholder="请输入新员工的工号" />
       </el-form-item>
       <el-form-item label="部门">
-        <el-input v-model="formData.departmentName" style="width:90%" placeholder="请选择新员工被分配的部门" @focus="showTree=true" />
+        <el-input v-model="formData.departmentName" style="width:90%" placeholder="请选择新员工被分配的部门" @focus="showTree=true" @blur="ifShow" />
         <el-tree
           v-if="showTree"
           :data="depts"
@@ -109,11 +109,14 @@ export default {
       // 先效验
       await this.$refs.form.validate()
       // 发送请求
-      const res = await addEmployee(this.formData)
-      console.log(res, 1111)
-      this.$message.success('操作成功！')
-      this.closeDialog()
-      this.$parent.getList()
+      try {
+        await addEmployee(this.formData)
+        this.$message.success('操作成功！')
+        this.closeDialog()
+        this.$parent.getList()
+      } catch (error) {
+        console.log(error)
+      }
       this.formData = {
         username: '',
         mobile: '',
@@ -126,7 +129,6 @@ export default {
       this.$refs.form.resetFields()
     },
     nodeClick(data) {
-      // console.log(data)
       this.formData.departmentName = data.name
       this.showTree = false
     },
@@ -143,6 +145,11 @@ export default {
       }
 
       this.$refs.form.resetFields()
+    },
+    ifShow() {
+      if (this.formData.departmentName && this.formData.departmentName !== undefined) {
+        this.showTree = false
+      }
     }
   }
 }
