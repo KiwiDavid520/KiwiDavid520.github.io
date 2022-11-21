@@ -111,7 +111,9 @@ export default {
         // 请求接口
         await this.userLogin(this.loginForm)
         this.$message.success('正在跳转...')
-        console.log(this.$router.push('/dashboard'))
+        setTimeout(() => {
+          this.$router.push('/dashboard')
+        }, 1000)
       } catch (error) {
         // 检查到有错，捕获然后抛出错误
         console.log(error, '失败')

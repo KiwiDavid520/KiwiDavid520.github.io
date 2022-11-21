@@ -19,7 +19,7 @@
         <el-input v-model="formData.workNumber" style="width:90%" placeholder="请输入新员工的工号" />
       </el-form-item>
       <el-form-item label="部门">
-        <el-input v-model="formData.departmentName" style="width:90%" placeholder="请选择新员工被分配的部门" @focus="showTree=true" @blur="ifShow" />
+        <el-input ref="whichDepts" v-model="formData.departmentName" style="width:90%" placeholder="请选择新员工被分配的部门" @focus="showTree=true" />
         <el-tree
           v-if="showTree"
           :data="depts"
@@ -132,7 +132,9 @@ export default {
       this.formData.departmentName = data.name
       this.showTree = false
     },
+
     closeDialog() {
+      this.showTree = false
       this.$emit('closeDialog')
       this.formData = {
         username: '',
@@ -146,10 +148,8 @@ export default {
 
       this.$refs.form.resetFields()
     },
-    ifShow() {
-      if (this.formData.departmentName && this.formData.departmentName !== undefined) {
-        this.showTree = false
-      }
+    ifShowTree() {
+      console.log(1111)
     }
   }
 }

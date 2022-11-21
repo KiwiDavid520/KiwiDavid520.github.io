@@ -33,3 +33,12 @@ export function addEmployee(data) {
     data
   })
 }
+
+// xlsx批量导入员工
+export function addEmployeeByXlsx(data) {
+  return request({
+    url: '/sys/user/batch',
+    method: 'post',
+    data
+  })
+}

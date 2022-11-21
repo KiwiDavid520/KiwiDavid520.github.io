@@ -4,8 +4,8 @@
       <page-tools :show-before="true">
         <span slot="before" class="total">共{{ total }}条记录</span>
         <template slot="after">
-          <el-button size="small" type="warning" style="width: 33%;">导入</el-button>
-          <el-button size="small" type="danger" style="width: 33%;">导出</el-button>
+          <el-button size="small" type="warning" style="width: 33%;" @click="imprtEmployee">导入</el-button>
+          <el-button size="small" type="danger" style="width: 33%;" @click="exportEmployee">导出</el-button>
           <el-button size="small" type="primary" style="width: 33%;" @click="isShow = true">新增员工</el-button>
         </template>
       </page-tools>
@@ -61,6 +61,7 @@
             @current-change="currentChange"
           />
         </el-row>
+
       </el-card>
       <AddEmployee :is-show="isShow" @closeDialog="closeDialog" />
     </div>
@@ -149,6 +150,16 @@ export default {
     },
     closeDialog() {
       this.isShow = false
+    },
+    imprtEmployee() {
+      this.$router.push('/import')
+      this.$message.success('请导入文件')
+    },
+    async exportEmployee() {
+      // 拿到所有的员工（传参数）
+      // const { rows } = await getDetailList({ page: 1, size: this.total })
+      await getDetailList({ page: 1, size: this.total })
+      // console.log(rows)
     }
   }
 }

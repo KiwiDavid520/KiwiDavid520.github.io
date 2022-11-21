@@ -8,6 +8,7 @@ import permissionRouter from '@/router/module/permission'
 import salarysRouter from '@/router/module/salarys'
 import settingRouter from '@/router/module/setting'
 import socialRouter from '@/router/module/social'
+import importRouter from '@/router/module/import'
 Vue.use(Router)
 
 /* Layout */
@@ -46,6 +47,7 @@ export const constantRoutes = [
   salarysRouter,
   settingRouter,
   socialRouter,
+  importRouter,
   // 404页面必须放置在最后面
   { path: '*', redirect: '/404', hidden: true }
 ]
