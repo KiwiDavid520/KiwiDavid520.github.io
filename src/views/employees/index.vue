@@ -72,6 +72,7 @@
 import { getDetailList, deleteEmployeeById } from '@/api/employee'
 import EmployeeEnume from '@/api/constant/employees'
 import AddEmployee from './components/AddEmployee'
+import { export_json_to_excel } from '@/vendor/Export2Excel'
 export default {
   components: {
     AddEmployee
@@ -155,11 +156,31 @@ export default {
       this.$router.push('/import')
       this.$message.success('请导入文件')
     },
+    toArr(arr) {
+      const header = []
+      const data = []
+
+      // 首先拿到头部
+      for (const item in arr[0]) {
+        header.push(item)
+      }
+      // console.log(header)
+      arr.forEach(item => {
+        data.push(Object.values(item))
+      })
+      console.log(data)
+      return [header, data]
+    },
     async exportEmployee() {
       // 拿到所有的员工（传参数）
-      // const { rows } = await getDetailList({ page: 1, size: this.total })
-      await getDetailList({ page: 1, size: this.total })
-      // console.log(rows)
+      const { rows } = await getDetailList({ page: 1, size: this.total })
+      // await getDetailList({ page: 1, size: this.total })
+      const arr = this.toArr(rows)
+
+      export_json_to_excel({
+        header: arr[0],
+        data: arr[1]
+      })
     }
   }
 }
