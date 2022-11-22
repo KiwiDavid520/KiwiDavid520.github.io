@@ -86,7 +86,16 @@ export default {
       list: [],
       total: 0,
       value: false,
-      isShow: false
+      isShow: false,
+      // 字典
+      dist: [
+        { key: 'username', value: '姓名' },
+        { key: 'mobile', value: '手机号码' },
+        { key: 'timeOfEntry', value: '入职时间' },
+        { key: 'workNumber', value: '工号' },
+        { key: 'correctionTime', value: '转正时间' },
+        { key: 'departmentName', value: '部门' }
+      ]
 
     }
   },
@@ -171,15 +180,46 @@ export default {
       console.log(data)
       return [header, data]
     },
+    // 翻译
+    translate(data) {
+      const newArr = []
+      for (const item in this.dist) {
+        for (const e in data) {
+          if (data[e] === this.dist[item].key) {
+            newArr.push(this.dist[item].value)
+          }
+        }
+      }
+      return newArr
+    },
+    // 过滤
+    infoFilter(data) {
+      const newArr = []
+      // 遍历每一项对象
+      for (const b in data) {
+        const arr = []
+        for (const a in this.dist) {
+          if (data[b][this.dist[a].key] !== undefined) {
+            // console.log(data[b][this.dist[a].key])
+            arr.push(data[b][this.dist[a].key])
+          }
+        }
+        newArr.push(arr)
+      }
+      return newArr
+    },
     async exportEmployee() {
       // 拿到所有的员工（传参数）
       const { rows } = await getDetailList({ page: 1, size: this.total })
       // await getDetailList({ page: 1, size: this.total })
       const arr = this.toArr(rows)
+      // 测试翻译
+      this.translate(arr[0])
+      // 测试数据过滤
 
       export_json_to_excel({
-        header: arr[0],
-        data: arr[1]
+        header: this.translate(arr[0]),
+        data: this.infoFilter(rows)
       })
     }
   }
