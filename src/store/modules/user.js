@@ -47,7 +47,7 @@ const actions = {
     const res = await getInfo()
     const detail = await getDetailInfo(res.userId)
     const info = { ...res, ...detail }
-    console.log(info)
+    // console.log(info)
     context.commit('setUserInfo', info)
   },
 

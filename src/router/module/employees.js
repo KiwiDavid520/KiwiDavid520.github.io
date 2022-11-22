@@ -7,6 +7,12 @@ export default {
       path: '',
       component: () => import('@/views/employees/index'),
       meta: { title: '员工', icon: 'people' }
+    },
+    {
+      path: 'Detail',
+      component: () => import('@/views/employees/components/Detail'),
+      meta: { title: '员工详情', icon: 'people' },
+      hidden: true
     }
   ]
 }

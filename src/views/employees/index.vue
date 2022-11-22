@@ -39,7 +39,7 @@
           </el-table-column>
           <el-table-column label="操作" fixed="right" width="280" align="center">
             <template #default="scoped">
-              <el-button type="text" size="small">查看</el-button>
+              <el-button type="text" size="small" @click="$router.push('/employees/Detail')">查看</el-button>
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
@@ -73,6 +73,7 @@ import { getDetailList, deleteEmployeeById } from '@/api/employee'
 import EmployeeEnume from '@/api/constant/employees'
 import AddEmployee from './components/AddEmployee'
 import { export_json_to_excel } from '@/vendor/Export2Excel'
+import { formatDate } from '@/filters'
 export default {
   components: {
     AddEmployee
@@ -92,9 +93,10 @@ export default {
         { key: 'username', value: '姓名' },
         { key: 'mobile', value: '手机号码' },
         { key: 'timeOfEntry', value: '入职时间' },
-        { key: 'workNumber', value: '工号' },
         { key: 'correctionTime', value: '转正时间' },
-        { key: 'departmentName', value: '部门' }
+        { key: 'departmentName', value: '部门' },
+        { key: 'workNumber', value: '工号' },
+        { key: 'formOfEmployment', value: '聘用形式' }
       ]
 
     }
@@ -177,10 +179,10 @@ export default {
       arr.forEach(item => {
         data.push(Object.values(item))
       })
-      console.log(data)
+      // console.log(data)
       return [header, data]
     },
-    // 翻译
+    // 翻译头部
     translate(data) {
       const newArr = []
       for (const item in this.dist) {
@@ -200,8 +202,19 @@ export default {
         const arr = []
         for (const a in this.dist) {
           if (data[b][this.dist[a].key] !== undefined) {
-            // console.log(data[b][this.dist[a].key])
-            arr.push(data[b][this.dist[a].key])
+            // console.log(this.dist[a].key, data[b][this.dist[a].key])
+            // 要是遇到是关于时间的数据，则需要进行处理为正确格式再进行推入新数组
+            if (this.dist[a].key === 'correctionTime' || this.dist[a].key === 'timeOfEntry') {
+              arr.push(formatDate(data[b][this.dist[a].key]))
+            } else if (this.dist[a].key === 'formOfEmployment') {
+              const res = EmployeeEnume.hireType.find(item => {
+                return item.id === data[b][this.dist[a].key]
+              })
+              // 要确保res存在
+              res && res.id === 1 ? arr.push('正式') : arr.push('非正式')
+            } else {
+              arr.push(data[b][this.dist[a].key])
+            }
           }
         }
         newArr.push(arr)
@@ -214,8 +227,9 @@ export default {
       // await getDetailList({ page: 1, size: this.total })
       const arr = this.toArr(rows)
       // 测试翻译
-      this.translate(arr[0])
+      // this.translate(arr[0])
       // 测试数据过滤
+      // this.infoFilter(rows)
 
       export_json_to_excel({
         header: this.translate(arr[0]),
