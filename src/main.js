@@ -48,7 +48,7 @@ Vue.directive('fiximg', {
     // 头像请求出错，会出现一个碎片的图片，那么很不爽，则直接使用自定义的头像
     el.onerror = () => {
       el.src = binding.value
-      console.log(binding.value)
+      // console.log(binding.value)
     }
   }
 })

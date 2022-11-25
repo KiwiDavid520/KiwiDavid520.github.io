@@ -2,7 +2,7 @@
   <div class="user-info">
     <el-row type="flex" justify="end">
       <el-tooltip content="打印个人基本信息">
-        <router-link :to="`/employees/print/${userId}?type=personal`">
+        <router-link :to="`/employees/print/${$route.params.id}?type=personal`">
           <i class="el-icon-printer" />
         </router-link>
       </el-tooltip>
@@ -47,7 +47,7 @@
             <el-input v-model="userInfo.mobile" />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <!-- <el-col :span="12">
           <el-form-item label="聘用形式">
             <el-select v-model="userInfo.formOfEmployment" class="inputW">
               <el-option
@@ -58,7 +58,7 @@
               />
             </el-select>
           </el-form-item>
-        </el-col>
+        </el-col> -->
       </el-row>
       <!-- 员工照片 -->
       <el-row class="inline-info">
@@ -249,10 +249,10 @@
           <el-input v-model="formData.graduateSchool" placeholder="请输入" class="inputW2" />
         </el-form-item>
         <el-form-item label="入学时间">
-          <el-date-picker v-model="formData.enrolmentTime" type="data" placeholder="请输入时间" class="inputW" value-format="yyyy-MM-dd" />
+          <el-date-picker v-model="formData.enrolmentTime" type="date" placeholder="请输入时间" class="inputW" value-format="yyyy-MM-dd" />
         </el-form-item>
         <el-form-item label="毕业时间">
-          <el-date-picker v-model="formData.graduationTime" type="data" placeholder="请输入时间" class="inputW" value-format="yyyy-MM-dd" />
+          <el-date-picker v-model="formData.graduationTime" type="date" placeholder="请输入时间" class="inputW" value-format="yyyy-MM-dd" />
         </el-form-item>
         <el-form-item label="专业">
           <el-input v-model="formData.major" placeholder="请输入" class="inputW" />
@@ -319,15 +319,17 @@ export default {
         ...this.userInfo,
         staffPhoto: this.$refs.userInfoPhoto.fileList[0] ? this.$refs.userInfoPhoto.fileList[0].url : ''
       })
+      console.log(this.userInfo)
       this.$message.success('保存成功')
       this.getUser()
     },
 
     async savePersonal() {
-      if (this.$refs.formDataPhoto.fileList[0] && this.$refs.formDataPhoto.fileList[0].status !== 'status') {
+      if (this.$refs.formDataPhoto.fileList[0] && this.$refs.formDataPhoto.fileList[0].status !== 'success') {
         this.$message.error('请等待图片上传完毕')
         return
       }
+      // if(useInfo.formOfEmployment)
       await updatePersonal({
         ...this.formData,
         staffPhoto: this.$refs.formDataPhoto.fileList[0] ? this.$refs.formDataPhoto.fileList[0].url : ''
@@ -347,6 +349,9 @@ export default {
       if (this.formData.staffPhoto && this.formData.staffPhoto !== '') {
         this.$refs.formDataPhoto.fileList = [{ url: this.formData.staffPhoto }]
       }
+    },
+    print() {
+      window.print()
     }
   }
 }
