@@ -34,3 +34,12 @@ export function getCompanyInfo(id) {
     method: 'get'
   })
 }
+
+// 保存员工信息
+export function saveUserDetailById(data) {
+  return request({
+    url: `/sys/user/${data.id}`,
+    method: 'put',
+    data
+  })
+}

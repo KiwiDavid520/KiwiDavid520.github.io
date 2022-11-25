@@ -12,7 +12,12 @@
       <!-- 放置表格和分页 -->
       <el-card>
         <el-table :data="list" :lazy="true" height="460">
-          <el-table-column label="序号" type="index" :index="customIndex" align="center" />
+          <el-table-column label="序号" type="index" :index="customIndex" align="center" width="50px" />
+          <el-table-column label="头像" prop="staffPhoto" align="center" width="200px">
+            <template v-slot="scoped">
+              <img v-fiximg="require('@/assets/common/head.jpg')" :src="scoped.row.staffPhoto" alt="" class="avater">
+            </template>
+          </el-table-column>
           <el-table-column label="姓名" prop="username" align="center" />
           <el-table-column label="工号" prop="workNumber" align="center" />
           <el-table-column label="聘用形式" sortable="" prop="formOfEmployment" :formatter="formatterMethod" align="center" />
@@ -39,7 +44,7 @@
           </el-table-column>
           <el-table-column label="操作" fixed="right" width="280" align="center">
             <template #default="scoped">
-              <el-button type="text" size="small" @click="$router.push('/employees/Detail')">查看</el-button>
+              <el-button type="text" size="small" @click="$router.push('/employees/Detail/'+scoped.row.id)">查看</el-button>
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
@@ -159,6 +164,8 @@ export default {
       this.$message.success('删除成功')
       this.getList()
       this.pageConfig.page--
+      console.log(this.$router)
+      console.log(this.$route)
     },
     closeDialog() {
       this.isShow = false
@@ -244,5 +251,13 @@ export default {
 <style lang="scss" scoped>
 .total{
   cursor: pointer;
+}
+
+.avater{
+  display: block;
+  width: 130px;
+  height: 80px;
+  object-fit: contain;
+  margin: 0 auto;
 }
 </style>

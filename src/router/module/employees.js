@@ -9,9 +9,15 @@ export default {
       meta: { title: '员工', icon: 'people' }
     },
     {
-      path: 'Detail',
-      component: () => import('@/views/employees/components/Detail'),
+      path: 'Detail/:id',
+      component: () => import('@/views/employees/Detail'),
       meta: { title: '员工详情', icon: 'people' },
+      hidden: true
+    },
+    {
+      path: 'print/:id',
+      component: () => import('@/views/employees/components/print'),
+      meta: { title: '打印', icon: 'people' },
       hidden: true
     }
   ]
