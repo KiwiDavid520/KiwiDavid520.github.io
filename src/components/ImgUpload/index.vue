@@ -26,11 +26,11 @@
       title="
       图片预览"
       :visible="isShow"
-      style="height:650px"
+      style="height:750px"
       @close="isShow=false"
     >
       <el-row type="flex" justify="center">
-        <img :src="picSrc" alt="">
+        <img :src="picSrc" alt="" class="addImg">
       </el-row>
 
     </el-dialog>
@@ -121,9 +121,12 @@ export default {
 .hasImg{
   ::v-deep .el-upload--picture-card{
   display:none;
-}
+ }
 }
 ::v-deep img{
+  display: block;
   object-fit: cover;
+  width: 100%;
+  height: 400px;
 }
 </style>
