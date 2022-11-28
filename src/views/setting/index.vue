@@ -5,17 +5,20 @@
       <el-tabs>
         <el-tab-pane label="角色列表">
           <el-button type="primary" class="primarybtn" @click="isShow=true">+新增角色</el-button>
-          <el-table :data="roleList">
-            <el-table-column label="角色名称" prop="name" />
-            <el-table-column label="角色描述" prop="description" />
-            <el-table-column label="操作按钮">
+          <el-table :data="roleList" border :highlight-current-row="true">
+            <el-table-column label="角色名称" prop="name" align="center" />
+            <el-table-column label="角色描述" prop="description" align="center" />
+
+            <el-table-column label="操作按钮" align="center">
+
               <template #default="scope">
-                <el-button size="small" type="primary">分配权限</el-button>
+                <el-button size="small" type="primary" @click="assignPermission(scope.row.id)">分配权限</el-button>
                 <el-button size="small" type="success" @click="editRole(scope.row.id)">编辑</el-button>
                 <el-button size="small" type="danger" @click="delateRole(scope.row.id)">删除</el-button>
               </template>
 
             </el-table-column>
+
           </el-table>
           <!-- 分页组件，让这个组件独占一行 -->
           <el-row type="flex" justify="center" align="middle" style="height:60px">
@@ -70,11 +73,29 @@
       </template>
 
     </el-dialog>
+
+    <!-- 设置角色权限 -->
+    <el-dialog :visible="isShowPermission" title="为角色（岗位）分配权限" @close="btnCancel">
+
+      <el-checkbox-group v-model="checkedPermission">
+        <el-checkbox v-for="item in permissionList" :key="item.id" :label="item.id">{{ item.name }}</el-checkbox>
+      </el-checkbox-group>
+
+      <template #footer>
+        <el-row type="flex" justify="center">
+          <el-button @click="btnCancel">取消</el-button>
+          <el-button type="primary" @click="btnOk">确定</el-button>
+        </el-row>
+      </template>
+
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getCompanyInfo, getRoleList, addNewRole, getDetailById, resetRoleById, deleteRoleById } from '@/api/setting'
+import { getCompanyInfo, getRoleList, addNewRole, getDetailById, resetRoleById, deleteRoleById, assignPermissionForRole } from '@/api/setting'
+import { getPermissionList } from '@/api/permission'
+
 export default {
   data() {
     return {
@@ -99,7 +120,11 @@ export default {
         description: [
           { required: true, message: '该项不能为空', trigger: 'blur' }
         ]
-      }
+      },
+      isShowPermission: false,
+      permissionList: [],
+      checkedPermission: [],
+      permissionId: ''
     }
   },
   async created() {
@@ -175,6 +200,31 @@ export default {
       }
       // window.location.reload()
       this.getRoleList()
+    },
+    async assignPermission(id) {
+      this.permissionId = id
+      const res = await getPermissionList()
+      const { permIds } = await getDetailById(id)
+      // console.log(res1)
+      this.permissionList = res
+      this.checkedPermission = permIds
+      this.isShowPermission = true
+    },
+    // 发送分配权限请求
+    async btnOk() {
+      await assignPermissionForRole({
+        id: this.permissionId,
+        permIds: this.checkedPermission instanceof Array ? this.checkedPermission : []
+      })
+      this.$message.success('为角色（岗位）分配权限成功')
+      this.btnCancel() // 关闭弹窗
+      this.getRoleList()// 重新获取权限列表
+    },
+    btnCancel() {
+      // 清空数据
+      this.permissionId = ''
+      this.checkedPermission = []
+      this.isShowPermission = false
     }
   }
 }

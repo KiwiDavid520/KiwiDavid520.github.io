@@ -48,7 +48,7 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small">角色</el-button>
+              <el-button type="text" size="small" @click="addRole(scoped.row.id)">角色</el-button>
               <el-button type="text" size="small" @click="deleteEmployee(scoped.row.id)">删除</el-button>
             </template>
           </el-table-column>
@@ -69,6 +69,7 @@
 
       </el-card>
       <AddEmployee :is-show="isShow" @closeDialog="closeDialog" />
+      <AssignRole :id="roleId" ref="role" :is-show-dialig="assignRoleIsShow" @closeRoleDialog="closeRoleDialog" />
     </div>
   </div>
 </template>
@@ -79,9 +80,11 @@ import EmployeeEnume from '@/api/constant/employees'
 import AddEmployee from './components/AddEmployee'
 import { export_json_to_excel } from '@/vendor/Export2Excel'
 import { formatDate } from '@/filters'
+import AssignRole from './components/assign-role.vue'
 export default {
   components: {
-    AddEmployee
+    AddEmployee,
+    AssignRole
   },
   data() {
     return {
@@ -102,8 +105,9 @@ export default {
         { key: 'departmentName', value: '部门' },
         { key: 'workNumber', value: '工号' },
         { key: 'formOfEmployment', value: '聘用形式' }
-      ]
-
+      ],
+      roleId: '',
+      assignRoleIsShow: false
     }
   },
   async created() {
@@ -242,6 +246,16 @@ export default {
         header: this.translate(arr[0]),
         data: this.infoFilter(rows)
       })
+    },
+    addRole(id) {
+      // 调用子组件的方法
+      this.$refs.role.getRoleInfo(id)
+      // 再将弹窗显示出来
+      this.assignRoleIsShow = true
+    },
+    closeRoleDialog() {
+      this.assignRoleIsShow = false
+      this.getList()
     }
   }
 }

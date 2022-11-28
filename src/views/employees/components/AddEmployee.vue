@@ -18,7 +18,7 @@
       <el-form-item label="工号" prop="workNumber">
         <el-input v-model="formData.workNumber" style="width:90%" placeholder="请输入新员工的工号" />
       </el-form-item>
-      <el-form-item label="部门">
+      <el-form-item label="部门" prop="departmentName">
         <el-input ref="whichDepts" v-model="formData.departmentName" style="width:90%" placeholder="请选择新员工被分配的部门" @focus="showTree=true" />
         <el-tree
           v-if="showTree"
