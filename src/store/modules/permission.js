@@ -16,6 +16,7 @@ const actions = {
   filterRouter(store, menus) {
     // 过滤路由
     const routes = asyncRouter.filter((route) => {
+      console.log(route, menus)
       return menus.includes(route.name)
     })
 
