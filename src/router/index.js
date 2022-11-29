@@ -38,10 +38,8 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
-  },
+  }
 
-  // 404页面必须放置在最后面
-  { path: '*', redirect: '/404', hidden: true }
 ]
 
 // 有权限的路由配置

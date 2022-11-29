@@ -21,6 +21,17 @@ router.beforeEach(async(to, from, next) => {
       // 而是使用Object.keys(传入一个对象)返回这个对象的由这个对象中的属性组成的数组
       if (Object.keys(store.state.user.userInfo).length === 0) {
         await store.dispatch('user/getUserInfo')
+        // 拿完数据以后，当前用户的meaus就有了，就可以进行权限筛选了
+        const menus = store.state.user.userInfo.roles.menus
+        const res = await store.dispatch('permission/filterRouter', menus)
+        // console.log(res, 111)
+        // 追加路由配置，使用Router的addRoutes函数
+        router.addRoutes([
+          ...res,
+          // 404页面必须放置在最后面
+          { path: '*', redirect: '/404', hidden: true }
+        ])
+        return next(to.path)
       }
       next()
     }
