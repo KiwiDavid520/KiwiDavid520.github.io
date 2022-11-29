@@ -20,8 +20,8 @@
         row-key="id"
         border
         :tree-props="{children: 'children'}"
-        height="560"
-        highlight-current-row="true"
+        height="500px"
+        :highlight-current-row="true"
         style="cursor: pointer;"
       >
         <el-table-column label="权限名称" prop="name" align="center" />

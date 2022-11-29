@@ -14,6 +14,7 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
+// 这是静态路由，并不需要权限控制
 export const constantRoutes = [
   {
     path: '/login',
@@ -39,6 +40,12 @@ export const constantRoutes = [
     }]
   },
 
+  // 404页面必须放置在最后面
+  { path: '*', redirect: '/404', hidden: true }
+]
+
+// 有权限的路由配置
+export const asyncRouter = [
   departmentsRouter,
   approvalsRouter,
   employeesRouter,
@@ -47,9 +54,7 @@ export const constantRoutes = [
   salarysRouter,
   settingRouter,
   socialRouter,
-  importRouter,
-  // 404页面必须放置在最后面
-  { path: '*', redirect: '/404', hidden: true }
+  importRouter
 ]
 
 const createRouter = () => new Router({
