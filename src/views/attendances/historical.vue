@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import { getDepartments } from '@/api/department'
+import { getDepartments } from '@/api/departments'
 import {
   getArchivingList,
   getArchivingCont

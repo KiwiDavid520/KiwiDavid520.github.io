@@ -378,7 +378,7 @@
 
 <script>
 import { addEmployee } from '@/api/employee'
-import { getDepartments } from '@/api/department'
+import { getDepartmentList } from '@/api/departments'
 import {
   attendanceSave,
   getAttendance,
@@ -470,7 +470,7 @@ export default {
     // 业务方法
     // 获取部门
     async getDepartments() {
-      const { depts } = await getDepartments()
+      const { depts } = await getDepartmentList()
       this.departmentData = depts
       this.formBase.departmentId = this.leaveBase.departmentId = this.deductionsBase.departmentId = this.overtimeBase.departmentId = this.departmentData[0].id
       this.handleChange(this.leaveBase.departmentId)

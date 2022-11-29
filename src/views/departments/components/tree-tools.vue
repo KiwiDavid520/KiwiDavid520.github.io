@@ -15,9 +15,9 @@
               操作<i :class="{'el-icon-arrow-down':!isCompany}" />
             </span>
             <!-- 下拉菜单 -->
-            <el-dropdown-menu v-if="!isCompany" slot="dropdown">
+            <el-dropdown-menu v-show="!isCompany" slot="dropdown">
               <el-dropdown-item @click.native="addDepts">添加子部门</el-dropdown-item>
-              <el-dropdown-item v-if="!isCompany" @click.native="editDepts">编辑部门</el-dropdown-item>
+              <el-dropdown-item v-show="!isCompany" @click.native="editDepts">编辑部门</el-dropdown-item>
               <el-dropdown-item @click.native="delateDepts(nodeData)">删除部门</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>

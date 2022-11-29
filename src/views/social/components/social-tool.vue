@@ -23,7 +23,7 @@
 
 <script>
 import { getCityList } from '@/api/common'
-import { getDepartments } from '@/api/department'
+import { getDepartments } from '@/api/departments'
 
 export default {
   name: 'SocialTool',
