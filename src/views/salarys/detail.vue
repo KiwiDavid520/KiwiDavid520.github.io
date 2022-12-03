@@ -2,9 +2,9 @@
   <div class="detailsContainer">
     <div class="contLeft">
       <div class="topTit">
-        <!-- <img :src="staffPhoto" alt=""> -->
+        <img ref="imgavera" :src="staffPhoto" alt="">
         <!-- <el-button @click="getPersonal">查询头像</el-button> -->
-        <Img ref="avera" />
+        <!-- <Img ref="avera" /> -->
         <div class="info">
           <p class="name"><strong> {{ user.username }} </strong><span :class="dutyStatus">{{ dutyStatusTxt }}</span></p>
           <p class="time">入职时间:  {{ user.timeOfEntry | dateFormat }}   最新工资： {{ formLabelAlign.currentPostWage + formLabelAlign.currentBasicSalary }} <ul><span class="more">?</span><li>员工所有调薪后的基本工资、岗位工资合计</li></ul></p>
@@ -57,13 +57,13 @@ import { getSalaryDetail, getSettings } from '@/api/salarys'
 import { getHistorysData } from '@/api/social'
 import { getAtteArchiveDetail } from '@/api/attendances'
 import { getDetailInfo } from '@/api/user'
-import Img from '@/components/ImgUpload/index.vue'
+// import Img from '@/components/ImgUpload/index.vue'
 
 export default {
   name: 'UsersTableIndex',
-  components: {
-    Img
-  },
+  // components: {
+  //   Img
+  // },
   data() {
     return {
       user: {},
@@ -154,7 +154,10 @@ export default {
       console.log(res)
       this.staffPhoto = res.staffPhoto
       // console.log(this.$refs.avera)
-      this.$refs.avera.fileList = [{ url: this.staffPhoto }]
+      // this.$refs.avera.fileList = [{ url: this.staffPhoto }]
+      // console.log(this.$refs.imgavera)
+
+      this.$refs.imgavera.src = res.staffPhoto
     }
   }
 }
