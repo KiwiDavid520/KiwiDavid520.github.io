@@ -43,7 +43,7 @@
                 @click="fixedSalary('FixedSalary',scope.row.id)"
               >定薪</el-button>
               <el-button type="text" size="mini">
-                <router-link :to="{'path': '/salarys/details/'+yearMonth+'/'+scope.row.id}">查看</router-link>
+                <router-link :to="{'path': '/salarys/details/'+yearMonth+'/'+scope.row.id+'?oldid='+scope.row.oldid }">查看</router-link>
               </el-button>
             </template>
           </el-table-column>
@@ -75,6 +75,8 @@ import EmployeeData from '@/api/constant/employees'
 import { getDepartmentList } from '@/api/departments'
 import ChangeSalary from './components/change-salary'
 import FixedSalary from './components/fixed-salary'
+
+import { getDetailList } from '@/api/employee'
 export default {
   name: 'UsersTableIndex',
   components: { ChangeSalary, FixedSalary },
@@ -88,6 +90,7 @@ export default {
       department: [],
       subsidyScheme: [],
       list: [],
+      oldlist: [],
       departments: [],
       loading: false,
       page: {
@@ -104,7 +107,8 @@ export default {
       },
       selectedSalaryInfo: {},
       selectUserId: null,
-      currentComponent: ''
+      currentComponent: '',
+      rightId: []
 
     }
   },
@@ -117,6 +121,7 @@ export default {
   created() {
     this.getSalarysList() // 获取工资
     this.getDepartments() // 获取组织
+    console.log(this.list)
   },
   methods: {
     // 对聘用形式进行文本显示
@@ -126,10 +131,30 @@ export default {
     },
     async  getSalarysList() {
       const data = await getCompanySetting()
+      const { rows: res } = await getDetailList()
+      console.log(res, 12121)// 这个res里的id是对的
+      // res.forEach(item => {
+      //   // console.log(item.id)
+      //   this.rightId.push(item.id)
+      // })
+      this.rightId = res
       this.yearMonth = data.dataMonth
       this.loading = true
       const { rows, total } = await getSalarysList({ ...this.page, ... this.formData })
       this.list = rows
+      // console.log(rows, 23232)
+      // this.oldlist = rows
+      this.list.forEach(item => {
+        for (const k in this.rightId) {
+          if (item.mobile === this.rightId[k].mobile) {
+            item.oldid = item.id
+            item.id = this.rightId[k].id
+          }
+        }
+      })
+
+      console.log(this.list, '新的')
+
       this.page.total = total
       this.loading = false
     },

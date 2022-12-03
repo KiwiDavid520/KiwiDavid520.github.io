@@ -2,10 +2,12 @@
   <div class="detailsContainer">
     <div class="contLeft">
       <div class="topTit">
-        <img src="@/assets/common/img.jpeg" alt="">
+        <!-- <img :src="staffPhoto" alt=""> -->
+        <!-- <el-button @click="getPersonal">查询头像</el-button> -->
+        <Img ref="avera" />
         <div class="info">
           <p class="name"><strong> {{ user.username }} </strong><span :class="dutyStatus">{{ dutyStatusTxt }}</span></p>
-          <p class="time">入职时间:  {{ user.timeOfEntry | formatDate }}   最新工资： {{ formLabelAlign.currentPostWage + formLabelAlign.currentBasicSalary }} <ul><span class="more">?</span><li>员工所有调薪后的基本工资、岗位工资合计</li></ul></p>
+          <p class="time">入职时间:  {{ user.timeOfEntry | dateFormat }}   最新工资： {{ formLabelAlign.currentPostWage + formLabelAlign.currentBasicSalary }} <ul><span class="more">?</span><li>员工所有调薪后的基本工资、岗位工资合计</li></ul></p>
           <p>当月基本工资 / 当月岗位工资: {{ formLabelAlign.currentBasicSalary }} / {{ formLabelAlign.currentPostWage }}</p>
         </div>
       </div>
@@ -51,12 +53,17 @@
 
 <script>
 import { getSalaryDetail, getSettings } from '@/api/salarys'
-import { getUserDetailById } from '@/api/user'
+
 import { getHistorysData } from '@/api/social'
 import { getAtteArchiveDetail } from '@/api/attendances'
+import { getDetailInfo } from '@/api/user'
+import Img from '@/components/ImgUpload/index.vue'
 
 export default {
   name: 'UsersTableIndex',
+  components: {
+    Img
+  },
   data() {
     return {
       user: {},
@@ -70,8 +77,8 @@ export default {
       },
       userId: this.$route.params.id,
       yearMonth: this.$route.params.yearMonth,
-      formLabelAlign: {
-      }
+      formLabelAlign: {},
+      staffPhoto: ''
     }
   },
   computed: {
@@ -106,10 +113,11 @@ export default {
   },
   created() {
     this.init()
+    this.getPersonal()
   },
   methods: {
     init() {
-      getAtteArchiveDetail({ userId: this.userId, yearMonth: this.yearMonth }).then(res => {
+      getAtteArchiveDetail({ userId: this.$route.query.oldid, yearMonth: this.yearMonth }).then(res => {
         this.atteData = res || {}
         return getSettings()
       }).then(res => {
@@ -123,13 +131,13 @@ export default {
       this.getHistorysData() // 社保历史
     },
     async getSalaryDetail() {
-      this.formLabelAlign = await getSalaryDetail(this.userId)
+      this.formLabelAlign = await getSalaryDetail(this.$route.query.oldid)
     },
     async getHistorysData() {
-      this.socialData = await getHistorysData({ userId: this.userId, yearMonth: this.yearMonth })
+      this.socialData = await getHistorysData({ userId: this.$route.query.oldid, yearMonth: this.yearMonth })
     },
     async getUserDetailById() {
-      this.user = await getUserDetailById(this.userId)
+      this.user = await getDetailInfo(this.userId)
     },
     calMoney(type, money, days) {
       if (type === 3) {
@@ -139,6 +147,14 @@ export default {
         return money * days
       }
       return 0
+    },
+    // 取得头像
+    async  getPersonal() {
+      const res = await getDetailInfo(this.userId)
+      console.log(res)
+      this.staffPhoto = res.staffPhoto
+      // console.log(this.$refs.avera)
+      this.$refs.avera.fileList = [{ url: this.staffPhoto }]
     }
   }
 }

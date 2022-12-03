@@ -346,6 +346,7 @@ export default {
     },
     async  getPersonal() {
       this.formData = await getPersonalDetail(this.$route.params.id)
+      // console.log(this.$route.params.id)
       if (this.formData.staffPhoto && this.formData.staffPhoto !== '') {
         this.$refs.formDataPhoto.fileList = [{ url: this.formData.staffPhoto }]
       }

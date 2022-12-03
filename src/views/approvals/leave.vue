@@ -12,7 +12,7 @@
             <span>部门：{{ information.departmentName }}</span>
           </p>
           <p>
-            <span>入职时间： {{ information.timeOfEntry | formatDate }}</span>
+            <span>入职时间： {{ information.timeOfEntry | dateFormat }}</span>
           </p>
         </div>
       </div>
@@ -30,11 +30,11 @@
         </p>
         <p>
           <span>开始时间：</span>
-          {{ information.data.startTime | formatDate }}
+          {{ information.data.startTime | dateFormat }}
         </p>
         <p>
           <span>结束时间：</span>
-          {{ information.data.endTime | formatDate }}
+          {{ information.data.endTime | dateFormat }}
         </p>
         <p>
           <span>请假时长：</span>
@@ -53,7 +53,7 @@
       <div class="Items">
         <li v-for="(item, index) in taskInstanceOutList" :key="index">
           <div class="name" :style="index==taskInstanceOutList.length-1?'border-right:none':''">
-            <p>{{ item.handleTime | formatDate }}</p>
+            <p>{{ item.handleTime | dateFormat }}</p>
             <!-- <p>{{item.description}}</p> -->
           </div>
           <div class="act">

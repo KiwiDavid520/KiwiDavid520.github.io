@@ -14,7 +14,7 @@
         </p>
         <p>
           <span>入职时间：</span>
-          {{ ruleForm.timeOfEntry | formatDate }}
+          {{ ruleForm.timeOfEntry | dateFormat }}
         </p>
       </div>
     </div>

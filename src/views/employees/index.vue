@@ -30,7 +30,7 @@
           <el-table-column label="账户状态" prop="enableState" align="center">
             <template v-slot="scoped">
 
-              <!-- {{ scoped.row.enableState }} -->
+              <!-- {{ scoped.row }} -->
               <el-switch
                 v-model="scoped.row.enableState"
                 active-color="#13ce66"
@@ -79,7 +79,7 @@ import { getDetailList, deleteEmployeeById } from '@/api/employee'
 import EmployeeEnume from '@/api/constant/employees'
 import AddEmployee from './components/AddEmployee'
 import { export_json_to_excel } from '@/vendor/Export2Excel'
-import { formatDate } from '@/filters'
+import { dateFormat } from '@/filters'
 import AssignRole from './components/assign-role.vue'
 export default {
   components: {
@@ -216,7 +216,7 @@ export default {
             // console.log(this.dist[a].key, data[b][this.dist[a].key])
             // 要是遇到是关于时间的数据，则需要进行处理为正确格式再进行推入新数组
             if (this.dist[a].key === 'correctionTime' || this.dist[a].key === 'timeOfEntry') {
-              arr.push(formatDate(data[b][this.dist[a].key]))
+              arr.push(dateFormat(data[b][this.dist[a].key]))
             } else if (this.dist[a].key === 'formOfEmployment') {
               const res = EmployeeEnume.hireType.find(item => {
                 return item.id === data[b][this.dist[a].key]
