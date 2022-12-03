@@ -117,7 +117,7 @@ export default {
   },
   methods: {
     init() {
-      getAtteArchiveDetail({ userId: this.$route.query.oldid, yearMonth: this.yearMonth }).then(res => {
+      getAtteArchiveDetail({ userId: this.$route.params.oldid, yearMonth: this.yearMonth }).then(res => {
         this.atteData = res || {}
         return getSettings()
       }).then(res => {
@@ -131,10 +131,10 @@ export default {
       this.getHistorysData() // 社保历史
     },
     async getSalaryDetail() {
-      this.formLabelAlign = await getSalaryDetail(this.$route.query.oldid)
+      this.formLabelAlign = await getSalaryDetail(this.$route.params.oldid)
     },
     async getHistorysData() {
-      this.socialData = await getHistorysData({ userId: this.$route.query.oldid, yearMonth: this.yearMonth })
+      this.socialData = await getHistorysData({ userId: this.$route.params.oldid, yearMonth: this.yearMonth })
     },
     async getUserDetailById() {
       this.user = await getDetailInfo(this.userId)

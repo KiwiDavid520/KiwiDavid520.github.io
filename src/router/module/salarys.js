@@ -25,7 +25,7 @@ const salaryRouter = {
       }
     },
     {
-      path: 'details/:yearMonth/:id',
+      path: 'details/:yearMonth/:id/:oldid',
       component: () => import('@/views/salarys/detail'),
       name: 'salarysDetails',
       hidden: true,

@@ -43,7 +43,7 @@
                 @click="fixedSalary('FixedSalary',scope.row.id)"
               >定薪</el-button>
               <el-button type="text" size="mini">
-                <router-link :to="{'path': '/salarys/details/'+yearMonth+'/'+scope.row.id+'?oldid='+scope.row.oldid }">查看</router-link>
+                <router-link :to="{'path': '/salarys/details/'+yearMonth+'/'+scope.row.id+'/'+scope.row.oldid }">查看</router-link>
               </el-button>
             </template>
           </el-table-column>
