@@ -114,6 +114,7 @@ export default {
   created() {
     this.init()
     this.getPersonal()
+    console.log(this.$route)
   },
   methods: {
     init() {
