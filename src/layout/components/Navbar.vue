@@ -4,11 +4,14 @@
 
     <!-- <breadcrumb class="breadcrumb-container" /> -->
     <div class="app-breadcrumb">
-      人资管理系统
-      <span class="breadBtn">体验版</span>
+      {{ $t("message.人资后台管理系统") }}
+      <span class="breadBtn">{{ $t("message.体验版") }}</span>
     </div>
 
     <div class="right-menu">
+      <!-- 全屏功能 -->
+      <i class="el-icon-full-screen full-screen" style="font-size:16px;color:white; vertical-align: middle; margin-right: 10px;" @click="makeFullScreen">{{ $t("message.全屏") }}</i>
+      <i ref="lang" class="iconfont zhongwen lang" @click="toggleLang">中文</i>
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img v-fiximg="require('@/assets/common/head.jpg')" :src="staffPhoto" class="user-avatar">
@@ -18,15 +21,15 @@
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
             <el-dropdown-item @click="goBackIndex">
-              首页
+              {{ $t("message.首页") }}
             </el-dropdown-item>
           </router-link>
           <a target="_blank" href="https://gitee.com/linyiqi520/hr-management-back-office">
-            <el-dropdown-item>项目地址</el-dropdown-item>
+            <el-dropdown-item>{{ $t("message.项目地址") }}</el-dropdown-item>
           </a>
           <!-- 为什么要加native的原因是，在父组件中想要给子组件绑定事件，就必须要加上native修饰，否则无法触发 -->
           <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">退出登录</span>
+            <span style="display:block;">{{ $t("message.退出登录") }}</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -38,7 +41,7 @@
 import { mapGetters } from 'vuex'
 // import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-
+import screenfull from 'screenfull'
 export default {
   components: {
     // Breadcrumb,
@@ -53,6 +56,16 @@ export default {
     ...mapGetters(['sidebar', 'name', 'staffPhoto'])
   },
   methods: {
+    // 全屏功能
+    makeFullScreen() {
+      if (screenfull.isEnabled) {
+        screenfull.toggle()
+      } else {
+        this.$message.error('无法全屏')
+        return
+      }
+    },
+
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
@@ -70,6 +83,17 @@ export default {
     // 跳转回首页
     goBackIndex() {
       this.$router.replace('/dashboard')
+    },
+    toggleLang() {
+      if (this.$refs.lang.className === 'iconfont zhongwen lang') {
+        this.$refs.lang.className = 'iconfont yingwen lang'
+        this.$refs.lang.innerHTML = '英文'
+        this.$i18n.locale = 'zh'
+      } else {
+        this.$refs.lang.className = 'iconfont zhongwen lang'
+        this.$refs.lang.innerHTML = '中文'
+        this.$i18n.locale = 'en'
+      }
     }
 
     // 头像请求回来出错的情况下，使用默认头像，img标签要加上@error
@@ -180,6 +204,13 @@ export default {
         }
       }
     }
+  }
+  .lang{
+    vertical-align: middle;
+    color: white;
+    font-size: 16px;
+    margin: 0 10px;
+    font-weight: normal;
   }
 }
 </style>

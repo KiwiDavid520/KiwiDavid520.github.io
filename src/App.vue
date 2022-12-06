@@ -9,3 +9,9 @@ export default {
   name: 'App'
 }
 </script>
+
+<style>
+
+@import "../src/assets/font/iconfont.css";
+
+</style>

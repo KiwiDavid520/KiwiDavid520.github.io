@@ -8,13 +8,13 @@
       <el-row type="flex" justify="front" align="middle">
         <el-row>
           <el-col>
-            <im ref="imgavera" v-fiximg="defaultImg" class="imgavera" src="http://hr-picture-1315259797.cos.ap-guangzhou.myqcloud.com/0d7f-izmihnt7905464.jpg" alt="" />
+            <img ref="imgavera" v-fiximg="defaultImg" class="imgavera" src="http://hr-picture-1315259797.cos.ap-guangzhou.myqcloud.com/0d7f-izmihnt7905464.jpg" alt="">
           </el-col>
         </el-row>
         <el-row style="margin-left:20px;">
           <el-col :span="24">
             <el-row style="margin-bottom:10px;">
-              <span class="textone"> 你好，{{ name }} ，愿您开心每一天!</span>
+              <span class="textone" style="font-weight:700"> {{ $t("message.你好") }}，{{ name }} ，{{ $t("message.欢迎进入公司系统") }}，{{ $t("message.愿您开心每一天!") }}</span>
             </el-row>
             <el-row>
               <span class="texttwo"> {{ userInfo.username }} | {{ userInfo.departmentName }}</span>
@@ -30,7 +30,7 @@
         <el-row>
           <el-card class="card-container">
             <!-- 这里有工作日历 -->
-            <h2>工作日历</h2>
+            <h2>{{ $t("message.工作日历") }}</h2>
             <hr>
             <el-row type="flex" justify="end">
               <el-col :span="5" style="margin-right:5px;">
@@ -46,12 +46,12 @@
 
             </el-row>
 
-            <el-calendar v-model="value">
+            <el-calendar v-model="value" class="cal">
               <template #dateCell="scoped">
 
-                <!-- {{ scoped.data.day }} -->
+                <!-- {{ scoped.date }} -->
                 <span class="day">{{ scoped.data.day | dayFilter }}</span>
-                <span v-if="scoped.date.getDay()===0||scoped.date.getDay()===6" class="rest">休</span>
+                <span v-if="scoped.date.getDay()===0||scoped.date.getDay()===6" class="rest">{{ $t("message.休") }}</span>
 
               </template>
             </el-calendar>
@@ -61,7 +61,7 @@
 
         <el-row>
           <el-card class="card-container">
-            <h2>这里有新闻模块</h2>
+            <h2>{{ $t("message.公司新闻") }}</h2>
             <hr>
             <div class="advContent">
               <div class="contentItem">
@@ -102,14 +102,14 @@
       <el-col :span="12">
         <el-row>
           <el-card class="card-container">
-            <h2>系统访问数据统计</h2>
+            <h2>{{ $t("message.系统访问数据") }}</h2>
             <hr>
             <div ref="ridar" style="height:400px;color:black !important;margin-top: 45px;" />
           </el-card>
         </el-row>
         <el-row>
           <el-card class="card-container box-card">
-            <h2>人事部门招聘业绩统计</h2>
+            <h2>{{ $t("message.人事招聘业绩统计") }}</h2>
             <hr>
             <div ref="yeji" style="height:400px;margin-top: 45px;" />
           </el-card>
@@ -123,6 +123,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import * as echarts from 'echarts'
+
 export default {
   name: 'Dashboard',
   filters: {
@@ -140,7 +141,8 @@ export default {
       value: new Date(),
       year: year,
       month: month,
-      yearArr: ['2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030']
+      yearArr: ['2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'],
+      date2: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期天']
     }
   },
   computed: {
@@ -234,35 +236,48 @@ export default {
           name: 'Boss直聘',
           type: 'line',
           stack: 'Total',
-          data: [220, 152, 181, 144, 130, 260, 228]
+          data: [10, 20, 30, 40, 45, 40, 30]
         },
         {
           name: '智联招聘',
           type: 'line',
           stack: 'Total',
-          data: [700, 192, 171, 264, 300, 320, 310]
+          data: [7, 19, 17, 26, 30, 32, 31]
         },
         {
           name: '58人才网',
           type: 'line',
           stack: 'Total',
-          data: [850, 232, 201, 154, 190, 330, 410]
+          data: [8, 22, 1, 4, 19, 30, 10]
         },
         {
           name: '本地人才招聘（社招）',
           type: 'line',
           stack: 'Total',
-          data: [320, 332, 301, 334, 390, 330, 320]
+          data: [30, 32, 30, 4, 9, 30, 0]
         },
         {
           name: '实习僧',
           type: 'line',
           stack: 'Total',
-          data: [820, 932, 901, 934, 1290, 1330, 1320]
+          data: [17, 5, 18, 9, 12, 15, 13]
         }
       ]
     }
     optiont && myChartt.setOption(optiont)
+
+    // 翻译日历的头部
+    const dom = document.querySelectorAll('thead th')
+    console.log(dom)
+    for (const k in this.date2) {
+      dom[k].innerHTML = this.date2[k]
+      dom[k].style.fontSize = '16px'
+      dom[k].style.fontWeight = '700'
+      if (k >= 5) {
+        // console.log(1111111)
+        dom[k].style.color = 'red'
+      }
+    }
   },
   methods: {
     dateChange() {
@@ -371,6 +386,10 @@ hr{
 }
 li{
   list-style: none;
+}
+
+h2{
+  font-size: 25px;
 }
 
 </style>

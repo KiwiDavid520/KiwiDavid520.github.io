@@ -43,11 +43,11 @@
         </span>
       </el-form-item>
 
-      <el-button class="loginBtn" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">立即登录</el-button>
+      <el-button class="loginBtn" :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">{{ $t("message.立即登录") }}</el-button>
 
       <div class="tips">
-        <span style="margin-right:20px;">账号: 13800000002</span>
-        <span> 密码: 123456</span>
+        <span style="margin-right:20px;">{{ $t("message.账号") }}: 13800000002</span>
+        <span> {{ $t("message.密码") }}: 123456</span>
       </div>
 
     </el-form>

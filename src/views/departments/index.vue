@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       companyInfo: {
-        name: '人资管理系统',
+        name: '公司总体架构',
         manager: '负责人'
       },
       depts: [],
@@ -81,5 +81,9 @@ export default {
   .aa{
       cursor: pointer;
     }
+  }
+
+  hr{
+    border-bottom: none;
   }
   </style>

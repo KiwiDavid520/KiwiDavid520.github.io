@@ -59,8 +59,8 @@
       </el-form>
       <template v-slot:footer>
         <el-row type="flex" justify="center">
-          <el-button @click="cancelBtn">取消</el-button>
-          <el-button type="primary" @click="sureBtn">确定</el-button>
+          <el-button @click="cancelBtn">{{ $t("message.取消") }}</el-button>
+          <el-button type="primary" @click="sureBtn">{{ $t("message.确定") }}</el-button>
         </el-row>
 
       </template>
