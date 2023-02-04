@@ -239,7 +239,7 @@ $light_gray:#eee;
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
-      background-image: url("~@/assets/common/login-logo.png");
+      background-image: url("~@/assets/common/loginlogo.png");
     }
   }
 
