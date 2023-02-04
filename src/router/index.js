@@ -8,7 +8,7 @@ import permissionRouter from '@/router/module/permission'
 import salarysRouter from '@/router/module/salarys'
 import settingRouter from '@/router/module/setting'
 import socialRouter from '@/router/module/social'
-import importRouter from '@/router/module/import'
+import importRouter from '@/router/module/import.js'
 Vue.use(Router)
 
 /* Layout */

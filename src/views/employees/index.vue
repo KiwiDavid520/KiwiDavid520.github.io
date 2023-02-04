@@ -4,7 +4,7 @@
       <page-tools :show-before="true">
         <span slot="before" class="total">共{{ total }}条记录</span>
         <template slot="after">
-          <el-button size="small" type="warning" style="width: 33%;" @click="imprtEmployee">导入</el-button>
+          <el-button size="small" type="warning" style="width: 33%;" @click="importEmployee">导入</el-button>
           <el-button size="small" type="danger" style="width: 33%;" @click="exportEmployee">导出</el-button>
           <el-button size="small" type="primary" style="width: 33%;" @click="isShow = true">新增员工</el-button>
         </template>
@@ -24,7 +24,7 @@
           <el-table-column label="部门" prop="departmentName" align="center" />
           <el-table-column label="入职时间" align="center">
             <template v-slot="{row}">
-              {{ row.timeOfEntry | dateFormat }}
+              {{ row.timeOfEntry | formatDate }}
             </template>
           </el-table-column>
           <el-table-column label="账户状态" prop="enableState" align="center">
@@ -79,7 +79,7 @@ import { getDetailList, deleteEmployeeById } from '@/api/employee'
 import EmployeeEnume from '@/api/constant/employees'
 import AddEmployee from './components/AddEmployee'
 import { export_json_to_excel } from '@/vendor/Export2Excel'
-import { dateFormat } from '@/filters'
+import { formatDate } from '@/filters'
 import AssignRole from './components/assign-role.vue'
 export default {
   components: {
@@ -174,8 +174,9 @@ export default {
     closeDialog() {
       this.isShow = false
     },
-    imprtEmployee() {
+    importEmployee() {
       this.$router.push('/import')
+      // console.log(this.$route)
       this.$message.success('请导入文件')
     },
     toArr(arr) {
@@ -216,7 +217,7 @@ export default {
             // console.log(this.dist[a].key, data[b][this.dist[a].key])
             // 要是遇到是关于时间的数据，则需要进行处理为正确格式再进行推入新数组
             if (this.dist[a].key === 'correctionTime' || this.dist[a].key === 'timeOfEntry') {
-              arr.push(dateFormat(data[b][this.dist[a].key]))
+              arr.push(formatDate(data[b][this.dist[a].key]))
             } else if (this.dist[a].key === 'formOfEmployment') {
               const res = EmployeeEnume.hireType.find(item => {
                 return item.id === data[b][this.dist[a].key]

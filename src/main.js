@@ -60,7 +60,7 @@ Vue.directive('fiximg', {
 import * as myFilters from '@/filters'
 // console.log(myFilters)
 // 全局过滤器
-Vue.filter('dateFormat', myFilters.formatDate)
+Vue.filter('formatDate', myFilters.formatDate)
 
 // 全局组件注册
 // import PageTools from '@/components/pageTools'

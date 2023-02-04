@@ -11,7 +11,7 @@
           {{ user.departmentName }}
         </p><p>
           <span>入职时间：</span>
-          {{ user.timeOfEntry | dateFormat }}
+          {{ user.timeOfEntry | formatDate }}
         </p>
       </div>
     </div>

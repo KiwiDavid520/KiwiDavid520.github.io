@@ -16,7 +16,7 @@
           <el-table-column prop="procCurrNodeUserName" label="当前审批人" sortable />
           <el-table-column label="审批发起时间" sortable>
             <template slot-scope="scope">
-              <span>{{ scope.row.procApplyTime | dateFormat }}</span>
+              <span>{{ scope.row.procApplyTime | formatDate }}</span>
             </template>
           </el-table-column>
           <el-table-column prop="process_state" label="审批状态" sortable>

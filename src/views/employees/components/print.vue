@@ -40,7 +40,7 @@
             </tr>
             <tr>
               <th>出生日期</th>
-              <td colspan="6">{{ formData.dateOfBirth | dateFormat }}</td>
+              <td colspan="6">{{ formData.dateOfBirth | formatDate }}</td>
             </tr>
             <tr>
               <th>最高学历</th>

@@ -18,7 +18,7 @@
           <el-table-column prop="timeOfEntry" width="130" label="入职时间">
             <template v-slot:default="obj">
               {{
-                obj.row.timeOfEntry | dateFormat
+                obj.row.timeOfEntry | formatDate
               }}
             </template>
           </el-table-column>

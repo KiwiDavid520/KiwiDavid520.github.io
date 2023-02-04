@@ -48,12 +48,12 @@
           />
           <el-table-column label="申请时间" sortable prop="procApplyTime">
             <template slot-scope="scope">
-              <span>{{ scope.row.procApplyTime | dateFormat }}</span>
+              <span>{{ scope.row.procApplyTime | formatDate }}</span>
             </template>
           </el-table-column>
           <!-- <el-table-column label="最后操作时间" v-if='tabLab!=="launch"'>
             <template slot-scope="scope">
-              <span>{{scope.row.proc_last_node_time | dateFormat}}</span>
+              <span>{{scope.row.proc_last_node_time | formatDate}}</span>
             </template>
           </el-table-column>-->
           <el-table-column label="审批状态">

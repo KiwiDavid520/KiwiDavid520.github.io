@@ -6,8 +6,8 @@ export default {
   hidden: true,
   children: [
     {
-      path: '',
-      component: () => import('@/views/import'),
+      path: 'import',
+      component: () => import('@/views/import/index.vue'),
       meta: { title: '导入' }
     }
   ]

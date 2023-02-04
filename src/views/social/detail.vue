@@ -11,7 +11,7 @@
         <p>
           <span>最新工资基数 {{ sizeForm.salaryBase }}  </span>
           &emsp;&emsp;
-          <span>入职时间   {{ sizeForm.user.timeOfEntry | dateFormat }}</span>
+          <span>入职时间   {{ sizeForm.user.timeOfEntry | formatDate }}</span>
           &emsp;&emsp;
           <span>联系电话 {{ sizeForm.user.mobile }}</span>
         </p>
